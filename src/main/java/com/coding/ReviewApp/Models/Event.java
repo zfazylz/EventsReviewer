@@ -21,107 +21,107 @@ import javax.validation.constraints.Size;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
-@Table(name="events")
+@Table(name = "events")
 public class Event {
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
-    @Size(min=1, max=100, message="Please add an event name")
+
+    @Size(min = 1, max = 100, message = "Please add an event name")
     private String event_name;
-    
-    @Size(min=1,message="Please add a location")
+
+    @Size(min = 1, message = "Please add a location")
     private String location;
-    
-    @Size(min=1, max=50,message="Please add a country")
+
+    @Size(min = 1, max = 50, message = "Please add a country")
     private String country;
-    
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="owner_id", nullable = false)
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "owner_id", nullable = false)
     private User owner;
-    
-    @ManyToMany(fetch=FetchType.LAZY)
+
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-    	name="guest_list",	
-    	joinColumns = @JoinColumn(name="event_id"),
-    	inverseJoinColumns = @JoinColumn(name="user_id")
-	)
+            name = "guest_list",
+            joinColumns = @JoinColumn(name = "event_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
     private List<User> guestList = new ArrayList<User>();
-    
+
     @Future
-    @DateTimeFormat(pattern="yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date event_date;
 
-    @OneToMany(mappedBy="event", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "event", fetch = FetchType.LAZY)
     private List<Comment> comments = new ArrayList<Comment>();
 
-    
-	public Event() {
-	}
 
-	public Long getId() {
-		return id;
-	}
+    public Event() {
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public String getEvent_name() {
-		return event_name;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setEvent_name(String event_name) {
-		this.event_name = event_name;
-	}
+    public String getEvent_name() {
+        return event_name;
+    }
 
-	public String getLocation() {
-		return location;
-	}
+    public void setEvent_name(String event_name) {
+        this.event_name = event_name;
+    }
 
-	public void setLocation(String location) {
-		this.location = location;
-	}
+    public String getLocation() {
+        return location;
+    }
 
-	public String getCountry() {
-		return country;
-	}
+    public void setLocation(String location) {
+        this.location = location;
+    }
 
-	public void setCountry(String country) {
-		this.country = country;
-	}
+    public String getCountry() {
+        return country;
+    }
 
-	public User getOwner() {
-		return owner;
-	}
+    public void setCountry(String country) {
+        this.country = country;
+    }
 
-	public void setOwner(User owner) {
-		this.owner = owner;
-	}
+    public User getOwner() {
+        return owner;
+    }
 
-	public List<User> getGuestList() {
-		return guestList;
-	}
+    public void setOwner(User owner) {
+        this.owner = owner;
+    }
 
-	public void setGuestList(List<User> guestList) {
-		this.guestList = guestList;
-	}
+    public List<User> getGuestList() {
+        return guestList;
+    }
 
-	public Date getEvent_date() {
-		return event_date;
-	}
+    public void setGuestList(List<User> guestList) {
+        this.guestList = guestList;
+    }
 
-	public void setEvent_date(Date event_date) {
-		this.event_date = event_date;
-	}
+    public Date getEvent_date() {
+        return event_date;
+    }
 
-	public List<Comment> getComments() {
-		return comments;
-	}
+    public void setEvent_date(Date event_date) {
+        this.event_date = event_date;
+    }
 
-	public void setComments(List<Comment> comments) {
-		this.comments = comments;
-	}
+    public List<Comment> getComments() {
+        return comments;
+    }
 
-    
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
+
 }

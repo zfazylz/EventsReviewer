@@ -59,14 +59,9 @@ public class MainController {
 
     @RequestMapping("/registration")
     public String registration(@ModelAttribute("user") User user, Model model, HttpSession session) {
-        System.out.println(session.getAttribute("userid"));
         if (session.getAttribute("userid") != null && userService.findUserById((Long) session.getAttribute("userid")) != null) {
             return "redirect:/";
         }
-//        User current_user = userService.findUserById((Long) session.getAttribute("userid"));
-//        if (current_user == null) {
-//            return "redirect:/";
-//        }
 
         model.addAttribute("countries", countries);
         return "registration";
@@ -76,28 +71,22 @@ public class MainController {
     public String edit(@PathVariable("id") Long id, Model model, HttpSession session) {
         Event event = mainService.findEventById(id);
         Long userid = (Long) session.getAttribute("userid");
-        System.out.println(star);
         if (userid == null || event == null || event.getOwner().getId().longValue() != userid) {
             return "redirect:/";
         }
 
-        System.out.println("event is " + event.getId());
-        System.out.println("event owner is " + event.getOwner().getId());
-        System.out.println("user is " + userid);
         model.addAttribute("event", event);
         model.addAttribute("eventid", id);
         model.addAttribute("countries", countries);
         return "edit";
     }
 
-    //show event
     @RequestMapping("/events/{id}")
     public String show(@PathVariable("id") Long id, Model model, @ModelAttribute("comment") Comment comment) {
         model.addAttribute("event", mainService.findEventById(id));
         return "showevent";
     }
 
-// ~~~~~~~~~ OPERATIONS ~~~~~~~~~~~~//
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     public String registerUser(@Valid @ModelAttribute("user") User user, BindingResult result, HttpSession session) {
@@ -108,7 +97,6 @@ public class MainController {
         userService.registerUser(user);
         session.setAttribute("user", user);
         session.setAttribute("userid", user.getId());
-        System.out.println("registration done!");
         return "redirect:/";
     }
 
@@ -122,7 +110,6 @@ public class MainController {
     public String loginUser(@RequestParam("email") String email, @RequestParam("password") String password, HttpSession session, Model model) {
         if (userService.authenticateUser(email, password)) {
             User user = userService.findUserByEmail(email);
-            System.out.println("set sesssion user as " + user.getFirst_name() + " " + user + " UserID :" + user.getId());
             session.setAttribute("user", user);
             session.setAttribute("userid", user.getId());
             return "redirect:/";
@@ -133,11 +120,9 @@ public class MainController {
         return "/registration";
     }
 
-    //  create event
     @RequestMapping(value = "/createevent", method = RequestMethod.POST)
     public String createEvent(HttpSession session, @Valid @ModelAttribute("event") Event event, BindingResult result, Model model) {
         if (result.hasErrors()) {
-            System.out.println("errors found...escaping");
             User current_user = userService.findUserById((Long) session.getAttribute("userid"));
             model.addAttribute("user", current_user);
             model.addAttribute("eventsjoined", mainService.findJoinedEventsByUserId(current_user.getId()));
@@ -150,7 +135,6 @@ public class MainController {
         return "redirect:/events/" + newevent.getId();
     }
 
-    //	delete event
     @RequestMapping(value = "/events/delete/{id}")
     public String deleteEvent(HttpSession session, @PathVariable("id") Long id) {
         User current_user = (User) session.getAttribute("user");
@@ -165,7 +149,6 @@ public class MainController {
         return "redirect:/";
     }
 
-    //    edit event(put)
     @RequestMapping(value = "/events/edit/{id}", method = RequestMethod.PUT)
     public String editEvent(HttpSession session, @PathVariable("id") Long id, @Valid @ModelAttribute("event") Event event, BindingResult result) {
         if (result.hasErrors()) {
@@ -183,7 +166,6 @@ public class MainController {
         return "redirect:/events/edit/" + id;
     }
 
-    // 	Join event
     @RequestMapping(value = "/events/{eventid}/join")
     public String joinEvent(HttpSession session, @PathVariable("eventid") Long eventid) {
         Long userid = (Long) session.getAttribute("userid");
@@ -192,7 +174,6 @@ public class MainController {
         return "redirect:/";
     }
 
-    //  Leave event
     @RequestMapping(value = "/events/{eventid}/cancel")
     public String leaveEvent(HttpSession session, @PathVariable("eventid") Long eventid) {
         Long userid = (Long) session.getAttribute("userid");
@@ -201,17 +182,13 @@ public class MainController {
         return "redirect:/";
     }
 
-    //  Create Comment
     @RequestMapping(value = "/events/{eventid}/addcomment", method = RequestMethod.POST)
     public String createComment(@PathVariable("eventid") Long eventid, HttpSession session, @Valid @ModelAttribute("comment") Comment comment, BindingResult result, Model model) {
-        System.out.println("hit route correctly");
         if (result.hasErrors()) {
             return "showevent";
         }
         User author = userService.findUserById((Long) session.getAttribute("userid"));
-        System.out.println("creating");
         mainService.createComment(eventid, author, comment);
-        System.out.println("created comment!");
         return "redirect:/events/" + eventid;
     }
 
