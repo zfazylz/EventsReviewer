@@ -47,8 +47,8 @@
 
             <form:errors path="country"/>
             <form:select path="country" class= "dumb2" >
-                <c:forEach items="${states}" var="state" >
-                    <form:option value="${state}" />
+                <c:forEach items="${countries}" var="country" >
+                    <form:option value="${country}" />
                 </c:forEach>
             </form:select>
         </div>

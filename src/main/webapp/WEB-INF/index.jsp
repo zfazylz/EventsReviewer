@@ -152,7 +152,7 @@
 
             <form:select class= "dumb2" path ="country">
                 <c:forEach items="${countries}" var="country" >
-                    <form:option value="${countries}"></form:option>
+                    <form:option value="${country}"></form:option>
                 </c:forEach>
             </form:select>
         </div>

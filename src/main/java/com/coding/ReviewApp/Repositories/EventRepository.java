@@ -13,8 +13,8 @@ public interface EventRepository extends CrudRepository<Event, Long> {
 	List<Event> findAll();
 	
 
-	@Query(value="select * from events where state = ?1", nativeQuery=true)
+	@Query(value="select * from events where country = ?1", nativeQuery=true)
 	List<Event> findAllEventsInUserCountry(String country);
-	@Query(value="select * from events where state != ?1", nativeQuery=true)
+	@Query(value="select * from events where country != ?1", nativeQuery=true)
 	List<Event> findAllEventsOutOfCountry(String country);
 }
