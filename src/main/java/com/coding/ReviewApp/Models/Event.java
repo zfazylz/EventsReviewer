@@ -1,5 +1,6 @@
 package com.coding.ReviewApp.Models;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -55,10 +56,6 @@ public class Event {
     @OneToMany(mappedBy = "event", fetch = FetchType.LAZY)
     private List<Comment> comments = new ArrayList<Comment>();
 
-
-    public Event() {
-    }
-
     public Long getId() {
         return id;
     }
@@ -107,8 +104,8 @@ public class Event {
         this.guestList = guestList;
     }
 
-    public Date getEvent_date() {
-        return event_date;
+    public String getEvent_date() {
+        return new SimpleDateFormat("E yyyy.MM.dd").format(event_date);
     }
 
     public void setEvent_date(Date event_date) {
