@@ -1,140 +1,83 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8"%>
+         pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <style type="text/css">
-        .container{
-            display:inline-block;
-            vertical-align: top;
-            margin-left : 200px;
-            border: 1px solid black;
-            padding:20px;
-            padding-top:0px;
-        }
-        h1
-        {margin-top: 5px;}
-        .btn
-        {margin-left:65% ;}
-        .dumb1{
-            width:47%;
-            display:inline-block;
-        }
-    </style>
     <meta charset="UTF-8">
-    <title>Registration/Login Page</title>
+    <title>Login Page</title>
+    <link rel="stylesheet" href="/bootstrap.min.css"/>
 </head>
 <body>
-<a href="/login">Login</a><br>
-<a href="/registration">Registration</a><br>
-<a href="/">Index</a><br>
-<br>
-<h1> Welcome!</h1>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <a class="navbar-brand" href="#">Event Review</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01"
+            aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarColor01">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/login">Login</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/registration">Registration</a>
+            </li>
+        </ul>
+    </div>
+</nav>
 
 <div class="container">
-    <h1>Register!</h1>
-    <p><form:errors path="user.*"/></p>
-    <form:form method="POST" action="/registration" modelAttribute="user">
-        <table>
-            <tbody>
-            <tr>
-                <td>
+    <div class="row">
+        <div class="col-md-6">
+            <h1>Event Review App</h1>
+            <p class="lead">Register Form</p>
+        </div>
+        <div class="col-md-6">
+            <p><form:errors path="user.*"/></p>
+            <form:form method="POST" action="/registration" modelAttribute="user">
+                <div class="form-group">
                     <form:label path="first_name">First Name:</form:label>
-                </td>
-                <td>
-                    <form:input type="text" path="first_name"/>
-                </td>
-            </tr>
-            <tr>
-                <td>
+                    <form:input type="text" path="first_name" cssClass="form-control"/>
+                </div>
+                <div class="form-group">
                     <form:label path="last_name">Last Name:</form:label>
-                </td>
-                <td>
-                    <form:input type="text" path="last_name"/>
-                </td>
-            </tr>
-            <tr>
-                <td>
+                    <form:input type="text" path="last_name" cssClass="form-control"/>
+                </div>
+                <div class="form-group">
                     <form:label path="email">Email:</form:label>
-                </td>
-                <td>
-                    <form:input type="email" path="email"/>
-                </td>
-            </tr>
-            <tr>
-                <td>
+                    <form:input type="email" path="email" cssClass="form-control"/>
+                </div>
+                <div class="form-group">
                     <form:label path="location">Location:</form:label>
-                </td>
-                <td>
-                    <form:input class= "dumb1" type="text" path="location"/>
-                    <form:select class= "dumb2" path="country">
-                        <c:forEach items="${countries}" var="country" >
+                    <form:input class="dumb1" type="text" path="location" cssClass="form-control"/>
+                </div>
+                <div class="form-group">
+                    <form:label path="location">Country:</form:label>
+                    <form:select class="dumb2" path="country" cssClass="form-control">
+                        <c:forEach items="${countries}" var="country">
                             <form:option value="${country}"></form:option>
                         </c:forEach>
                     </form:select>
-                </td>
-            </tr>
-            <tr>
-                <td>
+                </div>
+                <div class="form-group">
                     <form:label path="password">Password:</form:label>
-                </td>
-                <td>
-                    <form:password path="password"/>
-                </td>
-            </tr>
-            <tr>
-                <td>
+                    <form:password path="password" cssClass="form-control"/>
+                </div>
+                <div class="form-group">
                     <form:label path="passwordConfirmation">Password confirm:</form:label>
-                </td>
-                <td>
-                    <form:password path="passwordConfirmation"/>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-        <button class="btn" type="submit">Register</button>
-    </form:form>
-
-
-
-
-
-
-
-
-
-
+                    <form:password path="passwordConfirmation" cssClass="form-control"/>
+                </div>
+                <button class="btn btn-primary" type="submit">Register</button>
+            </form:form>
+        </div>
+    </div>
 
 </div>
-<div class="container">
-    <h1>Login!</h1>
-    <p><c:out value="${error}" /></p>
-    <form method="post" action="/login">
-        <table>
-            <tbody>
-            <tr>
-                <td>
-                    <label type="email" for="email">Email</label>
-                </td>
-                <td>
-                    <input type="text" id="email" name="email"/>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="password">Password</label>
-                </td>
-                <td>
-                    <input type="password" id="password" name="password"/>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-        <button class="btn" type="submit">Login</button>
-    </form>
-</div>
-
 </body>
 </html>
